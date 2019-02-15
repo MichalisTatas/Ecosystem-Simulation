@@ -5,8 +5,9 @@ class tiles {
 
     public:
     tiles();
-    ~tiles();
-    void changeEnviroment(const char&);
+    // ~tiles();
+    char getEnviroment();
+    void setEnviroment(const char&);
 };
 
 class ecosystem {
@@ -24,5 +25,6 @@ class ecosystem {
     public:
     ecosystem(const int&, const int&);
     ~ecosystem();
-    void RunEcosystem();
+    // void RunEcosystem();
+    void PrintSystem();
 };
