@@ -1,46 +1,56 @@
 #include <iostream>
 #include <string>
+
 using namespace std;
 
-class Plant{
-protected:
+class Plant
+{
+    protected:
+    
     string name;
-    char token;
     int breedingProb;
     int illnessProb;
     int life;
     int lifeFactor;
+    char token;
     //missing variable about plant's position
-public:
+    
+    public:
+    
     Plant();
-    Plant(char, string, int, int, int, int);
+    Plant(char, string, const int&, const int&, const int&, const int&);
     ~Plant();
     //void set_name();
     //void set_token();
-    int get_breedingProb();
-    int get_illnessProb();
-    int get_life();
-    int get_lifeFactor();
+    int getBreedingProb();
+    int getIllnessProb();
+    int getLife();
+    int getLifeFactor();
     void LoseLife();
     //missing function about returning plant's position
 };
 
-class SeededPlant : public Plant{
+class Seeded : public Plant
+{
     int foliage;
     int seeds;
     int size;
+
     public:
-    SeededPlant(char mytoken);
-    ~SeededPlant();
-    int get_foliage();
-    int get_seeds();
+
+    Seeded(char);
+    ~Seeded();
+    int getFoliage();
+    int getSeeds();
     void LoseSeeds();
     void LoseFoliage();
 };
 
-class SeedlessPlant : public Plant{
+class Seedless : public Plant
+{
 
-public:
-    SeedlessPlant(char mytoken);
-    ~SeedlessPlant();
+    public:
+    
+    Seedless(char);
+    ~Seedless();
 };

@@ -6,92 +6,116 @@
 /////////////////////
 //Plant's functions//
 /////////////////////
-Plant::Plant(){}
-Plant::Plant(char mytoken,string myname,int mylife,int myillnessProb,int mybreedingProb,int mylifeFactor)
-    : token(mytoken), name(myname), life(mylife), illnessProb(myillnessProb), breedingProb(mybreedingProb),lifeFactor(mylifeFactor)
-{}
-Plant::~Plant(){}
+Plant::Plant()
+{
 
-int Plant::get_breedingProb(){
+}
+
+Plant::Plant(char myToken, string myName, const int& myLife, const int& myIllnessProb, const int& myBreedingProb, const int& myLifeFactor)
+    : token(myToken), name(myName), life(myLife), illnessProb(myIllnessProb), breedingProb(myBreedingProb),lifeFactor(myLifeFactor)
+{
+
+}
+Plant::~Plant()
+{
+
+}
+
+int Plant::getBreedingProb()
+{
     return breedingProb;
 }
 
-int Plant::get_illnessProb(){
+int Plant::getIllnessProb()
+{
     return illnessProb;
 }
 
-int Plant::get_life(){
+int Plant::getLife()
+{
     return life;
 }
 
-int Plant::get_lifeFactor(){
+int Plant::getLifeFactor()
+{
     return lifeFactor;
 }
 
-void Plant::LoseLife(){
+void Plant::LoseLife()
+{
     life = life - lifeFactor;
 }
 
 //////////////////////////
-//SeededPlant's fuctions//
+//Seeded's fuctions//
 //////////////////////////
-SeededPlant:: SeededPlant(char mytoken)
+Seeded:: Seeded(char myToken)
 {
-    switch(mytoken){
+    switch(myToken){
         case 'M' :    
-                    seeds = 10;
-                    foliage = 20;
-                    size = 2;
-                    Plant(mytoken,"Maple",20,5,5,10);
-        break;
+            seeds = 10;
+            foliage = 20;
+            size = 2;
+            Plant(myToken,"Maple",20,5,5,10);
+            break;
         case 'O' : 
-                    seeds = 15;
-                    foliage = 30;
-                    size = 5;
-                    Plant(mytoken,"Oak",30,20,20,15);
-        break;
+            seeds = 15;
+            foliage = 30;
+            size = 5;
+            Plant(myToken,"Oak",30,20,20,15);
+            break;
         case 'P' :
-                    seeds = 20;;
-                    foliage = 40;
-                    size = 5;
-                    Plant(mytoken,"Pine",40,15,15,20);
-        break;
+                seeds = 20;;
+                foliage = 40;
+                size = 5;
+                Plant(myToken,"Pine",40,15,15,20);
+            break;
     }
 }
 
-SeededPlant:: ~SeededPlant(){}
+Seeded:: ~Seeded()
+{
 
-int SeededPlant::get_foliage(){
+}
+
+int Seeded::getFoliage()
+{
     return foliage;
 }
 
-int SeededPlant::get_seeds(){
+int Seeded::getSeeds()
+{
     return seeds;
 }
 
-void SeededPlant::LoseSeeds(){
+void Seeded::LoseSeeds()
+{
     seeds = seeds - lifeFactor;
 }
 
-void SeededPlant::LoseFoliage(){
+void Seeded::LoseFoliage()
+{
     foliage = foliage - lifeFactor;
     life = life - lifeFactor; //is it right? do i need both?
 }
 
 //////////////////////////////
-//SeedlessPlant's functions//
+//Seedless's functions//
 //////////////////////////////
 
-SeedlessPlant::SeedlessPlant(char mytoken){
-    switch(mytoken){
+Seedless::Seedless(char myToken)
+{
+    switch(myToken){
         case 'G' :
-                    Plant(mytoken,"Grass",5,15,15,4);
-        break;
+            Plant(myToken,"Grass",5,15,15,4);
+            break;
         case 'A':
-                    Plant(mytoken,"Algae",5,25,25,2);
-        break;
+            Plant(myToken,"Algae",5,25,25,2);
+            break;
     }
 }
 
-SeedlessPlant::~SeedlessPlant(){}
+Seedless::~Seedless()
+{
 
+}

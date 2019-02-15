@@ -4,23 +4,23 @@
 
 using namespace std;
 
-tiles:: tiles()
+tiles::tiles()
     : enviroment('0')
 {
 
 }
 
-char tiles:: getEnviroment()
+char tiles::getEnviroment()
 {
     return enviroment;
 }
 
-void tiles:: setEnviroment(const char& ch)
+void tiles::setEnviroment(const char& ch)
 {
     enviroment = ch;
 }
 
-ecosystem:: ecosystem(const int& tSize, const int& dOfYear)
+ecosystem::ecosystem(const int& tSize, const int& dOfYear)
     :terrainSize(tSize), dayOfYear(dOfYear)
 {
     cout << "Generating terrain..." << endl;
@@ -32,7 +32,7 @@ ecosystem:: ecosystem(const int& tSize, const int& dOfYear)
     cout << "Terrain Generated!" << endl;
 }
 
-ecosystem:: ~ecosystem()
+ecosystem::~ecosystem()
 {
     for(int i=0; i < terrainSize; i++) {
         for(int j=0; j < terrainSize; j++) {
@@ -43,7 +43,7 @@ ecosystem:: ~ecosystem()
     delete[] terrain;
 }
 
-void ecosystem:: MapGenerator()
+void ecosystem::MapGenerator()
 {    
     terrain = new tiles**[terrainSize];
     for(int i=0; i < terrainSize; i++) {
@@ -55,7 +55,7 @@ void ecosystem:: MapGenerator()
     cout << "Map Generated" << endl;
 }
 
-void ecosystem:: GenerateRiver()
+void ecosystem::GenerateRiver()
 {
     int x=0, y= 5 + rand()%(terrainSize-10);
     terrain[x][y]->setEnviroment('#');
@@ -101,7 +101,7 @@ void ecosystem:: GenerateRiver()
     cout << "River Generated" << endl;
 }
 
-void ecosystem:: GenerateLake()
+void ecosystem::GenerateLake()
 {
     int lakeSize=terrainSize/3, x=rand()%(terrainSize-lakeSize+1), y=rand()%(terrainSize-lakeSize+1), joker=y;
 
@@ -114,7 +114,7 @@ void ecosystem:: GenerateLake()
     cout << "Lake Generated" << endl;
 }
 
-void ecosystem:: GenerateHills()
+void ecosystem::GenerateHills()
 {
     int size, hills=terrainSize/5, x = rand()%(terrainSize-hills), y = rand()%(terrainSize-hills), joker=y;
     bool cleanGrount = true;
@@ -153,7 +153,7 @@ void ecosystem:: GenerateHills()
     cout << "Hills Generated" << endl;
 }
 
-void ecosystem:: GenerateMeadow()
+void ecosystem::GenerateMeadow()
 {
     for(int i=0; i < terrainSize; i++) {
         for(int j=0; j < terrainSize; j++) {
