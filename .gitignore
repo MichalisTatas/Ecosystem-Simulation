@@ -1,0 +1,5 @@
+# Ignoring the build dir
+build
+
+# Ignoring the executable
+ouput

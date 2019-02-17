@@ -1,7 +1,13 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
-#include "../lib/classes.cpp"
+#include <string>
+#include <list>
+// #include "../lib/plants.cpp"
+#include "../include/classes.h"
+//#include "../include/point.h"
+
+using namespace std;
 
 
 int main(int argc, char const *argv[])

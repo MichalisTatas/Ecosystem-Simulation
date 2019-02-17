@@ -1,8 +1,9 @@
 #include <iostream>
 #include <cstdlib>
+#include <list>
 #include "../include/classes.h"
 
-using namespace std;
+// using namespace std;
 
 tiles::tiles()
     : enviroment('0')
@@ -23,13 +24,16 @@ void tiles::setEnviroment(const char& ch)
 ecosystem::ecosystem(const int& tSize, const int& dOfYear)
     :terrainSize(tSize), dayOfYear(dOfYear)
 {
-    cout << "Generating terrain..." << endl;
+    std::cout << "Generating Terrain..." << std::endl;
     MapGenerator();
     GenerateRiver();
     GenerateLake();
     GenerateHills();
     GenerateMeadow();
-    cout << "Terrain Generated!" << endl;
+    std::cout << "Terrain Generated!" << std::endl << "Generating Life..." << std::endl;
+    GeneratePlants();
+    //GenerateAnimals();
+    std::cout << "Life Generated!" << std::endl << "Ecosystem ready for simulation" << std::endl;
 }
 
 ecosystem::~ecosystem()
@@ -52,7 +56,7 @@ void ecosystem::MapGenerator()
             terrain[i][j] = new tiles();
         }
     }
-    cout << "Map Generated" << endl;
+    std::cout << "Map Generated" << std::endl;
 }
 
 void ecosystem::GenerateRiver()
@@ -98,7 +102,7 @@ void ecosystem::GenerateRiver()
             terrain[++x][y]->setEnviroment('#');
         }
     }
-    cout << "River Generated" << endl;
+    std::cout << "River Generated" << std::endl;
 }
 
 void ecosystem::GenerateLake()
@@ -111,7 +115,7 @@ void ecosystem::GenerateLake()
         }
         y=joker; x++;
     }
-    cout << "Lake Generated" << endl;
+    std::cout << "Lake Generated" << std::endl;
 }
 
 void ecosystem::GenerateHills()
@@ -150,7 +154,7 @@ void ecosystem::GenerateHills()
             joker = y;
         }
     }
-    cout << "Hills Generated" << endl;
+    std::cout << "Hills Generated" << std::endl;
 }
 
 void ecosystem::GenerateMeadow()
@@ -162,15 +166,71 @@ void ecosystem::GenerateMeadow()
             }
         }
     }
-    cout << "Meadow Generated" << endl;
+    std::cout << "Meadow Generated" << std::endl;
+}
+
+void ecosystem::GeneratePlants()
+{
+    for(int x=0; x < terrainSize; x++) {
+        for(int y=0; y < terrainSize; y++) {
+            if(rand()%10 < 3) {
+                switch (terrain[x][y]->getEnviroment())
+                {
+                    case '"':
+                        switch (rand()%3)
+                        {
+                            case 1: {
+                                Seeded myPlant('M', x, y);
+                                terrain[x][y]->setEnviroment('M');
+                                seededList.push_front(myPlant);
+                                break;
+                            }
+                            case 2: {
+                                Seeded myPlant('O', x, y);
+                                terrain[x][y]->setEnviroment('O');
+                                seededList.push_front(myPlant);
+                                break;
+                            }
+                            default:
+                                Seedless myPlant('G', x, y);
+                                terrain[x][y]->setEnviroment('G');
+                                seedlessList.push_front(myPlant);
+                                break;
+                        }
+                        break;
+                    case '^':
+                        switch (rand()%2)
+                        {
+                            case 1: {
+                                Seeded myPlant('M', x, y);
+                                terrain[x][y]->setEnviroment('M');
+                                seededList.push_front(myPlant);
+                                break;
+                            }
+                            default:
+                                Seeded myPlant('P', x, y);
+                                terrain[x][y]->setEnviroment('P');
+                                seededList.push_front(myPlant);
+                                break;
+                        }
+                        break;
+                    default:
+                        Seedless myPlant('A', x, y);
+                        terrain[x][y]->setEnviroment('A');
+                        seedlessList.push_front(myPlant);
+                        break;
+                }
+            }
+        }
+    }
 }
 
 void ecosystem:: PrintSystem() {
     for(int i=0; i < terrainSize; i++) {
         for(int j=0; j < terrainSize; j++) {
-            cout << terrain[j][i]->getEnviroment() << " ";
+            std::cout << terrain[j][i]->getEnviroment() << " ";
         }
-        cout << endl;
+        std::cout << std::endl;
     }
-    cout << endl;
+    std::cout << std::endl;
 }

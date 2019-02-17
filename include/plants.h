@@ -1,24 +1,19 @@
-#include <iostream>
-#include <string>
-
-using namespace std;
+#include "point.h"
 
 class Plant
 {
-    protected:
-    
-    string name;
-    int breedingProb;
-    int illnessProb;
+    std::string name;
     int life;
     int lifeFactor;
+    int breedingProb;
+    int illnessProb;
     char token;
-    //missing variable about plant's position
+    point position;
     
     public:
     
     Plant();
-    Plant(char, string, const int&, const int&, const int&, const int&);
+    Plant(char, std::string, const int&, const int&, const int&, const int&, const int&, const int&);
     ~Plant();
     //void set_name();
     //void set_token();
@@ -26,7 +21,8 @@ class Plant
     int getIllnessProb();
     int getLife();
     int getLifeFactor();
-    void LoseLife();
+    void virtual LoseLife(const int& eatCount);
+    void virtual Growth(bool);
     //missing function about returning plant's position
 };
 
@@ -38,12 +34,12 @@ class Seeded : public Plant
 
     public:
 
-    Seeded(char);
+    Seeded(char, const int&, const int&);
     ~Seeded();
     int getFoliage();
     int getSeeds();
-    void LoseSeeds();
-    void LoseFoliage();
+    void LoseLife(const int& eatCount);
+    void Growth(bool);
 };
 
 class Seedless : public Plant
@@ -51,6 +47,7 @@ class Seedless : public Plant
 
     public:
     
-    Seedless(char);
+    Seedless(char, const int&, const int&);
     ~Seedless();
+    void LoseLife();
 };
