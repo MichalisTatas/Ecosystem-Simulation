@@ -21,4 +21,4 @@ $(BDIR)/output: $(OBJ)
 
 clean:
 	rm -f $(ODIR)/*.o
-	rm -f $(BDIR)/*
+	rm -f $(BDIR)/output

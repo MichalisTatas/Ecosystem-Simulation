@@ -2,3 +2,7 @@
 build/*
 # Ignoring the executable
 bin/*
+
+#Exeptions to the above rules
+!build/.gitkeep
+!bin/.gitkeep
