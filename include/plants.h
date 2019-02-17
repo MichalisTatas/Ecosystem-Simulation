@@ -15,8 +15,6 @@ class Plant
     Plant();
     Plant(char, std::string, const int&, const int&, const int&, const int&, const int&, const int&);
     ~Plant();
-    //void set_name();
-    //void set_token();
     int getBreedingProb();
     int getIllnessProb();
     int getLife();

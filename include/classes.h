@@ -24,7 +24,8 @@ class ecosystem {
     
     std::list<Seeded> seededList;
     std::list<Seedless> seedlessList;
-    //animals list
+    std::list<Herbivore> herbivoreList;
+    std::list<Carnivore> carnivoreList;
 
     void MapGenerator();
     void GenerateRiver();
@@ -32,12 +33,22 @@ class ecosystem {
     void GenerateHills();
     void GenerateMeadow();
     void PlacePlants();
-    //void PlaceAnimals();
+    void PlaceAnimals();
+
+    void ApplySeason();
+    void DailyReset();
+    void AnimalMovement();
+    void AnimalEating();
+    void CheckDeadEntities();
+    void CheckHunger();
+    void AnimalBreeding();
+    void PlantBreeding();
+    point FindFreeTile();
 
     public:
     
     ecosystem(const int&, const int&);
     ~ecosystem();
-    // void RunEcosystem();
+    void RunEcosystem();
     void PrintSystem();
 };

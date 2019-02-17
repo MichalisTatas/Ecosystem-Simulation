@@ -140,12 +140,6 @@ void Seeded::Growth(bool happened)
     else {
         if(foliage >= getLifeFactor()) {
             foliage -= getLifeFactor();
-            // if(getLife() >= getLifeFactor()) {
-            //     Plant::LoseLife(getLifeFactor());
-            // }
-            // else {
-            //     Plant::LoseLife(getLife());
-            // }
         }
         else {
             foliage = 0;

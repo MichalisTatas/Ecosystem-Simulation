@@ -1,5 +1,6 @@
 #Ignoring the build files
 build/*
+
 # Ignoring the executable
 bin/*
 

@@ -3,9 +3,7 @@
 #include <ctime>
 #include <string>
 #include <list>
-// #include "../lib/plants.cpp"
 #include "../include/classes.h"
-//#include "../include/point.h"
 
 using namespace std;
 
@@ -16,7 +14,7 @@ int main(int argc, char const *argv[])
     
     srand((int)time(NULL));
     
-    myEcosystem = new ecosystem(16, 96);
+    myEcosystem = new ecosystem(16, 1);
     myEcosystem->PrintSystem();
     return 0;
 }

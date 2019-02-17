@@ -32,7 +32,7 @@ ecosystem::ecosystem(const int& tSize, const int& dOfYear)
     GenerateMeadow();
     std::cout << "Terrain Generated!" << std::endl << "Generating Life..." << std::endl;
     PlacePlants();
-    //GenerateAnimals();
+    PlaceAnimals();
     std::cout << "Life Generated!" << std::endl << "Ecosystem ready for simulation" << std::endl;
 }
 
@@ -174,11 +174,9 @@ void ecosystem::PlacePlants()
     for(int x=0; x < terrainSize; x++) {
         for(int y=0; y < terrainSize; y++) {
             if(rand()%10 < 3) {
-                switch (terrain[x][y]->getEnviroment())
-                {
+                switch (terrain[x][y]->getEnviroment()) {
                     case '"':
-                        switch (rand()%3)
-                        {
+                        switch (rand()%3) {
                             case 1: {
                                 Seeded myPlant('M', x, y);
                                 terrain[x][y]->setEnviroment('M');
@@ -199,8 +197,7 @@ void ecosystem::PlacePlants()
                         }
                         break;
                     case '^':
-                        switch (rand()%2)
-                        {
+                        switch (rand()%2) {
                             case 1: {
                                 Seeded myPlant('M', x, y);
                                 terrain[x][y]->setEnviroment('M');
@@ -225,7 +222,64 @@ void ecosystem::PlacePlants()
     }
 }
 
-void ecosystem:: PrintSystem() {
+void ecosystem::PlaceAnimals()
+{
+    for(int x=0; x < terrainSize; x++) {
+        for(int y=0; y < terrainSize; y++) {
+            if(rand()%10 < 4) {
+                switch (terrain[x][y]->getEnviroment()) {
+                    case '"':
+                        switch (rand()%5) {
+                            case 1: {
+                                Herbivore myAnimal('D', x, y);
+                                herbivoreList.push_front(myAnimal);
+                                break;
+                            }
+                            case 2: {
+                                Herbivore myAnimal('R', x, y);
+                                herbivoreList.push_front(myAnimal);
+                                break;
+                            }
+                            case 3: {
+                                Herbivore myAnimal('G', x, y);
+                                herbivoreList.push_front(myAnimal);
+                                break;
+                            }
+                            case 4: {
+                                Carnivore myAnimal('F', x, y);
+                                carnivoreList.push_front(myAnimal);
+                                break;
+                            }
+                            default:
+                                Carnivore myAnimal('W', x, y);
+                                carnivoreList.push_front(myAnimal);
+                                break;
+                        }
+                        break;
+                    case '^':
+                        switch (rand()%2) {
+                            case 0: {
+                                Carnivore myAnimal('W', x, y);
+                                carnivoreList.push_front(myAnimal);
+                                break;
+                            }
+                            default:
+                                Carnivore myAnimal('B', x, y);
+                                carnivoreList.push_front(myAnimal);
+                                break;
+                        }
+                        break;
+                    default:
+                        Herbivore myAnimal('S', x, y);
+                        herbivoreList.push_front(myAnimal);
+                        break;
+                }
+            }
+        }
+    }
+}
+
+void ecosystem::PrintSystem() {
     for(int i=0; i < terrainSize; i++) {
         for(int j=0; j < terrainSize; j++) {
             std::cout << terrain[j][i]->getEnviroment() << " ";
