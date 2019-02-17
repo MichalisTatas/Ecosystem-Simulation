@@ -1,5 +1,4 @@
-# Ignoring the build dir
-build
-
+#Ignoring the build files
+build/*
 # Ignoring the executable
-ouput
+bin/*

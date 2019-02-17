@@ -18,7 +18,7 @@ Plant::Plant()
 Plant::Plant(char myToken, std::string myName, const int& myLife, const int& myIllnessProb, const int& myBreedingProb, const int& myLifeFactor, const int& x, const int& y)
     : token(myToken), name(myName), life(myLife), illnessProb(myIllnessProb), breedingProb(myBreedingProb), lifeFactor(myLifeFactor)
 {
-    position.x = x; position.y = y;
+    location.x = x; location.y = y;
 }
 Plant::~Plant()
 {

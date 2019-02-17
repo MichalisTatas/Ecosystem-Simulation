@@ -1,16 +1,16 @@
 #include <iostream>
 #include <string>
-using namespace std;
+#include "point.h"
 
-class Animal{
-protected:
-    string name;
+class Animal
+{
+    std::string name;
     char token;
     int size;
     int hungerCount;              //how long it has been since the animal ate
     int eatenFood;
     int eatCount;
-    //current location?
+    point location;
     bool isAlive;
     bool isHungry;
     bool inHeat;
@@ -18,51 +18,57 @@ protected:
     bool hibernates;
     bool inHibernation;
     bool canClimb;
-public:
+    
+    public:
+
     Animal();
-    Animal(char, string, int, int, bool, bool);
+    Animal(char, std::string, const int&, const int&, bool, bool, const int&, const int&);
     ~Animal();
-    string getName();
-    void setSize();
+    std::string getName();
     int getSize();
-    void setHungerCount(int a);
-    int getHungerCount();        
-    void setEatenFood(int b);
+    int getHungerCount();
     int getEatenFood();
-    void setIsAlive(int c);
     bool getIsAlive();
-    void setIsHungry(bool a);
     bool getIsHungry();
-    void setInHeat(bool b);
     bool getInHeat();
-    void setSpeed(int d);
     int getSpeed();
     bool getHibernates();
-    void setInHibernation(bool c);
     bool getInHibernation();
     bool getCanClimb();
+    
+    void setSize();
+    void setHungerCount(const int&);
+    void setEatenFood(const int&);
+    void setIsAlive(const int&);
+    void setIsHungry(bool);
+    void setInHeat(bool);
+    void setSpeed(const int&);
+    void setInHibernation(bool);
 };
 
-class Herbivore : public Animal{
-private:
+class Herbivore : public Animal
+{
     int neededFood;
-public:
-    Herbivore(char);
+
+    public:
+
+    Herbivore(char, const int&, const int&);
     ~Herbivore();
-    bool getCanClimb();
-    void setNeededFood(int e);
     int getNeededFood();
+    void setNeededFood(const int&);
 };
 
-class Carnivore : public Animal{
-private:
+class Carnivore : public Animal
+{
     int attack;
     int defence;
-public:
-    Carnivore(char);
+    
+    public:
+
+    Carnivore(char, const int&, const int&);
     ~Carnivore();
-    void setAttack(int f);
     int getAttack();
-    void setDefence(int g);
     int getDefence();
+    void setAttack(const int&);
+    void setDefence(const int&);
 };

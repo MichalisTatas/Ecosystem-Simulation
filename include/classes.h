@@ -1,6 +1,7 @@
 #include <iostream>
 #include <list>
 #include "plants.h"
+#include "animals.h"
 
 class tiles {
     //plant*
@@ -30,8 +31,8 @@ class ecosystem {
     void GenerateLake();
     void GenerateHills();
     void GenerateMeadow();
-    void GeneratePlants();
-    //void GenerateAnimals();
+    void PlacePlants();
+    //void PlaceAnimals();
 
     public:
     

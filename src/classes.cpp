@@ -31,7 +31,7 @@ ecosystem::ecosystem(const int& tSize, const int& dOfYear)
     GenerateHills();
     GenerateMeadow();
     std::cout << "Terrain Generated!" << std::endl << "Generating Life..." << std::endl;
-    GeneratePlants();
+    PlacePlants();
     //GenerateAnimals();
     std::cout << "Life Generated!" << std::endl << "Ecosystem ready for simulation" << std::endl;
 }
@@ -169,7 +169,7 @@ void ecosystem::GenerateMeadow()
     std::cout << "Meadow Generated" << std::endl;
 }
 
-void ecosystem::GeneratePlants()
+void ecosystem::PlacePlants()
 {
     for(int x=0; x < terrainSize; x++) {
         for(int y=0; y < terrainSize; y++) {

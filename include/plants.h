@@ -8,7 +8,7 @@ class Plant
     int breedingProb;
     int illnessProb;
     char token;
-    point position;
+    point location;
     
     public:
     
@@ -23,7 +23,7 @@ class Plant
     int getLifeFactor();
     void virtual LoseLife(const int& eatCount);
     void virtual Growth(bool);
-    //missing function about returning plant's position
+    //missing function about returning plant's location
 };
 
 class Seeded : public Plant
