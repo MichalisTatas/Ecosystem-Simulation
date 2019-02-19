@@ -11,7 +11,7 @@ tiles::tiles()
 
 }
 
-char tiles::getEnviroment()
+char tiles::getEnvironment()
 {
     return enviroment;
 }
@@ -129,7 +129,7 @@ void ecosystem::GenerateHills()
 
         for(int i=0; i < size; i++) {
             for(int j=0; j < size; j++) {
-                if(terrain[x][y++]->getEnviroment() != '0') {
+                if(terrain[x][y++]->getEnvironment() != '0') {
                     cleanGrount = false;
                 }
             }
@@ -161,7 +161,7 @@ void ecosystem::GenerateMeadow()
 {
     for(int i=0; i < terrainSize; i++) {
         for(int j=0; j < terrainSize; j++) {
-            if(terrain[i][j]->getEnviroment()!='#' && terrain[i][j]->getEnviroment()!='^') {
+            if(terrain[i][j]->getEnvironment()!='#' && terrain[i][j]->getEnvironment()!='^') {
                 terrain[i][j]->setEnviroment('"');
             }
         }
@@ -174,7 +174,7 @@ void ecosystem::PlacePlants()
     for(int x=0; x < terrainSize; x++) {
         for(int y=0; y < terrainSize; y++) {
             if(rand()%10 < 3) {
-                switch (terrain[x][y]->getEnviroment()) {
+                switch (terrain[x][y]->getEnvironment()) {
                     case '"':
                         switch (rand()%3) {
                             case 1: {
@@ -227,7 +227,7 @@ void ecosystem::PlaceAnimals()
     for(int x=0; x < terrainSize; x++) {
         for(int y=0; y < terrainSize; y++) {
             if(rand()%10 < 4) {
-                switch (terrain[x][y]->getEnviroment()) {
+                switch (terrain[x][y]->getEnvironment()) {
                     case '"':
                         switch (rand()%5) {
                             case 1: {
@@ -279,10 +279,25 @@ void ecosystem::PlaceAnimals()
     }
 }
 
+/*void ecosystem::RunEcosystem(){
+    for(int i=0; i<dayOfYear; i++){
+        switch(i/90){
+            case 1 :                                    //Spring
+            break;
+            case 2 :                                    //Summer
+            break;
+            case 3 :                                    //Autumn
+            break;
+            case 4 :                                    //Winter
+            break;
+        }
+    }
+}
+*/
 void ecosystem::PrintSystem() {
     for(int i=0; i < terrainSize; i++) {
         for(int j=0; j < terrainSize; j++) {
-            std::cout << terrain[j][i]->getEnviroment() << " ";
+            std::cout << terrain[j][i]->getEnvironment() << " ";
         }
         std::cout << std::endl;
     }

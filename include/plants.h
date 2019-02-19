@@ -1,3 +1,5 @@
+#ifndef PLANTS_H
+#define PLANTS_H
 #include "point.h"
 
 class Plant
@@ -49,3 +51,4 @@ class Seedless : public Plant
     ~Seedless();
     void LoseLife();
 };
+#endif
