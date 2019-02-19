@@ -1,3 +1,5 @@
+#ifndef CLASSES_H
+#define CLASSES_H
 #include <iostream>
 #include <list>
 #include "plants.h"
@@ -6,13 +8,13 @@
 class tiles {
     //plant*
     //animals**
-    char enviroment;
+     char enviroment;
 
     public:
 
     tiles();
     // ~tiles();
-    char getEnviroment();
+    char getEnvironment();
     void setEnviroment(const char&);
 };
 
@@ -52,3 +54,4 @@ class ecosystem {
     void RunEcosystem(const int&);
     void PrintSystem();
 };
+#endif

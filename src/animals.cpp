@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "../include/animals.h"
+#include "../include/classes.h"
 
 //////////////////////
 //Animal's functions//
@@ -71,7 +71,10 @@ bool Animal::getCanClimb()
     return canClimb;
 }
 
-void Animal::setSize(){}//ovverride in child class?
+void Animal::setSize(const int&m)
+{
+    size = size + m;
+}
 
 void Animal::setHungerCount(const int& a)
 {
@@ -100,12 +103,34 @@ void Animal::setInHeat(bool b)
 
 void Animal::setSpeed(const int& d)
 {
-    speed = d;
+    speed = speed + d;
 }
 
 void Animal::setInHibernation(bool c)
 {
     inHibernation = c;
+}
+
+void Animal::setPointX(int a){
+    if(a=1) location.x = location.x + 1;
+    else location.x = location.x - 1;
+}
+
+int Animal::getPointX(){
+    return location.x;
+}
+
+void Animal::setPointY(int a){
+    if(a=1) location.y = location.y + 1;
+    else location.y = location.y - 1;
+}
+
+int Animal::getPointY(){
+    return location.y;
+}
+
+char Animal::getToken(){
+    return token;
 }
 
 /////////////////////////
@@ -143,9 +168,134 @@ int Herbivore::getNeededFood()
 
 void Herbivore::setNeededFood(const int& e)
 {
-    neededFood = e;
+    neededFood = neededFood + e;
 }
 
+void Herbivore::Raise(){
+    switch(getToken()){
+        case 'D' :  if(getSize()<5) setSize(1);
+                    if(getSpeed()<8) setSpeed(2);
+                    if(getNeededFood()<8) setNeededFood(2);
+        break;
+        case 'R' :  if(getSize()<2) setSize(1);
+                    if(getSpeed()<6) setSpeed(2);
+                    if(getNeededFood()<4) setNeededFood(1); 
+        break;
+        case 'G' :  if(getSize()<3) setSize(1);
+                    if(getSpeed()<5) setSpeed(1);
+                    if(getNeededFood()<5) setNeededFood(1);
+        break;
+        //dont need case for salmon bcz its already adult since birth
+    }
+}
+
+void Herbivore::Move(int terrainSize, tiles*** terrain){
+    switch(getToken()){
+    case 'D' :  for(int i=0; i<getSpeed();){
+                    switch(rand()%4){
+                        case 0 :    if(getPointX()+1 < terrainSize-1){
+                                        setPointX(1);
+                                        i++;
+                                    }
+                        break;
+                        case 1 :    if(getPointX()-1 > terrainSize){
+                                        setPointX(-1);
+                                        i++;
+                                    }
+                        break;
+                        case 2 :    if(getPointY()+1 < terrainSize-1){
+                                        setPointY(1);
+                                        i++;
+                                    }
+                        break;
+                        case 3 :    if(getPointY()-1 > terrainSize){
+                                        setPointY(-1);
+                                        i++;
+                                    }
+                        break;
+                    }
+                }
+    break;
+    case 'R' :
+                for(int i=0; i<getSpeed();){
+                    switch(rand()%4){
+                        case 0 :    if(getPointX()+1 < terrainSize-1 && terrain[getPointX()+1][getPointY()]->getEnvironment() != '^'){
+                                        setPointX(1);
+                                        i++;
+                                    }
+                        break;
+                        case 1 :    if(getPointX()-1 > terrainSize && terrain[getPointX()-1][getPointY()]->getEnvironment() != '^'){
+                                        setPointX(-1);
+                                        i++;
+                                    }
+                        break;
+                        case 2 :    if(getPointY()+1 < terrainSize-1 && terrain[getPointX()][getPointY()+1]->getEnvironment() != '^'){
+                                        setPointY(1);
+                                        i++;
+                                    }
+                        break;
+                        case 3 :    if(getPointY()-1 > terrainSize && terrain[getPointX()][getPointY()-1]->getEnvironment() != '^'){
+                                        setPointY(-1);
+                                        i++;
+                                    }
+                        break;
+                    }
+                }
+    break;
+    case 'G' :
+                for(int i=0; i<getSpeed();){
+                    switch(rand()%4){
+                        case 0 :    if(getPointX()+1 < terrainSize-1 && terrain[getPointX()+1][getPointY()]->getEnvironment() != '#'){
+                                        setPointX(1);
+                                        i++;
+                                    }
+                        break;
+                        case 1 :    if(getPointX()-1 > terrainSize && terrain[getPointX()-1][getPointY()]->getEnvironment() != '#'){
+                                        setPointX(-1);
+                                        i++;
+                                    }
+                        break;
+                        case 2 :    if(getPointY()+1 < terrainSize-1 && terrain[getPointX()][getPointY()+1]->getEnvironment() != '#'){
+                                        setPointY(1);
+                                        i++;
+                                    }
+                        break;
+                        case 3 :    if(getPointY()-1 > terrainSize && terrain[getPointX()][getPointY()-1]->getEnvironment() != '#'){
+                                        setPointY(-1);
+                                        i++;
+                                    }
+                        break;
+                    }
+                }
+    break;
+    case 'S' :
+                for(int i=0; i<getSpeed();){
+                    switch(rand()%4){
+                        case 0 :    if(getPointX()+1 < terrainSize-1 && terrain[getPointX()+1][getPointY()]->getEnvironment() == '#'){
+                                        setPointX(1);
+                                        i++;
+                                    }
+                        break;
+                        case 1 :    if(getPointX()-1 > terrainSize && terrain[getPointX()-1][getPointY()]->getEnvironment() == '#'){
+                                        setPointX(-1);
+                                        i++;
+                                    }
+                        break;
+                        case 2 :    if(getPointY()+1 < terrainSize-1 && terrain[getPointX()][getPointY()+1]->getEnvironment() == '#'){
+                                        setPointY(1);
+                                        i++;
+                                    }
+                        break;
+                        case 3 :    if(getPointY()-1 > terrainSize && terrain[getPointX()][getPointY()-1]->getEnvironment() == '#'){
+                                        setPointY(-1);
+                                        i++;
+                                    }
+                        break;
+                    }
+                }
+    break;
+}
+}
 /////////////////////////
 //Carnivore's functions//
 /////////////////////////
@@ -183,10 +333,62 @@ int Carnivore::getDefence()
 
 void Carnivore::setAttack(const int& f)
 {
-    attack = f;
+    attack = attack + f;
 }
 
 void Carnivore::setDefence(const int& g)
 {
-    defence = g;
+    defence = defence + g;
+}
+
+void Carnivore::Raise(){
+    switch(getToken()){
+        case 'F' :  if(getSize()<4) setSize(1);
+                    if(getAttack()<5) setAttack(1);
+                    if(getDefence()<5) setDefence(1);
+                    if(getSpeed()<6) setSpeed(1);
+                    //get needed food?
+        break;
+        case 'W' :  if(getSize()<7) setSize(1);
+                    if(getAttack()<8) setAttack(2);
+                    if(getDefence()<6) setDefence(2);
+                    if(getSpeed()<8) setSpeed(2);
+                    //get needed food?
+        break;
+        case 'B' :  if(getSize()<10)    
+                        if(getSize()==9) setSize(1);
+                        else setSize(2);
+                    if(getAttack()<10) setAttack(2);
+                    if(getDefence()<10) setDefence(2);
+                    if(getSpeed()<4) setSpeed(2);
+                    //get needed food?
+        break;
+    }
+}
+
+void Carnivore::Move(int terrainSize){
+    for(int i=0; i<getSpeed();){
+        switch(rand()%4){
+            case 0 :    if(getPointX()+1 < terrainSize-1){
+                            setPointX(1);
+                            i++;
+                        }
+            break;
+            case 1 :    if(getPointX()-1 > terrainSize){
+                            setPointX(-1);
+                            i++;
+                        }
+            break;
+            case 2 :    if(getPointY()+1 < terrainSize-1){
+                            setPointY(1);
+                            i++;
+                        }
+            break;
+            case 3 :    if(getPointY()-1 > terrainSize){
+                            setPointY(-1);
+                            i++;
+                        }
+            break;
+        }
+    }
 }
