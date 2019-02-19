@@ -278,6 +278,24 @@ void ecosystem::PlaceAnimals()
         }
     }
 }
+void ecosystem::RunEcosystem(const int& numberOdDays)
+{
+    for(int i=0; i < numberOdDays; i++) {
+        ApplySeason();
+        DailyReset();
+        AnimalMovement();
+        AnimalEating();
+        CheckDeadEntities();
+        CheckHunger();
+        AnimalBreeding();
+        PlantBreeding();
+    }
+}
+
+void ecosystem::ApplySeason()
+{
+    
+}
 
 void ecosystem::PrintSystem() {
     for(int i=0; i < terrainSize; i++) {

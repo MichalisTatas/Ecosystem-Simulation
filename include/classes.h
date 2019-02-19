@@ -49,6 +49,6 @@ class ecosystem {
     
     ecosystem(const int&, const int&);
     ~ecosystem();
-    void RunEcosystem();
+    void RunEcosystem(const int&);
     void PrintSystem();
 };

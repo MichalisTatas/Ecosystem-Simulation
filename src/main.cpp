@@ -16,5 +16,6 @@ int main(int argc, char const *argv[])
     
     myEcosystem = new ecosystem(16, 1);
     myEcosystem->PrintSystem();
+    myEcosystem->RunEcosystem(200);
     return 0;
 }
