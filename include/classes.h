@@ -24,10 +24,10 @@ class ecosystem {
     int dayOfYear;
     tiles*** terrain;
     
-    std::list<Seeded> seededList;
-    std::list<Seedless> seedlessList;
-    std::list<Herbivore> herbivoreList;
-    std::list<Carnivore> carnivoreList;
+    std::list<Seeded*> seededList;
+    std::list<Seedless*> seedlessList;
+    std::list<Herbivore*> herbivoreList;
+    std::list<Carnivore*> carnivoreList;
 
     void MapGenerator();
     void GenerateRiver();
@@ -46,6 +46,11 @@ class ecosystem {
     void AnimalBreeding();
     void PlantBreeding();
     point FindFreeTile();
+
+    char findAnimal(const int&, const int&);
+    char findPlant(const int&, const int&);
+
+    void PrintAnimals();
 
     public:
     

@@ -9,7 +9,8 @@ Animal::Animal(){}
 Animal::Animal(char mytoken, std::string myname, const int& mysize, const int& myspeed, bool myhibernates, bool mycanClimb, const int& x, const int& y)
     : token(mytoken), name(myname), size(mysize), speed(myspeed),hibernates(myhibernates), canClimb(mycanClimb), hungerCount(0), eatenFood(0), isAlive(true), isHungry(true)
 {
-    // location.x = x; location.y = y;
+    std::cout << x << " " << y << std::endl;
+    location.x = x; location.y = y;
     //eatcount
     //inHeat
     //inHibernation
