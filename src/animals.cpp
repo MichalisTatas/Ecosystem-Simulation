@@ -72,6 +72,12 @@ bool Animal::getCanClimb()
     return canClimb;
 }
 
+void Animal::setStats(char mytoken, std::string myname, const int& mysize, const int& myspeed, bool myhibernates, bool mycanClimb, const int& x, const int& y)
+{
+    token = mytoken; name = myname; size = mysize; speed = myspeed;
+    hibernates = myhibernates; canClimb = mycanClimb; location.x = x; location.y = y;
+}
+
 void Animal::setSize(const int&m)
 {
     size = size + m;
@@ -143,19 +149,19 @@ Herbivore::Herbivore(char mytoken, const int& x, const int& y)
     switch(mytoken){
         case 'D':
             neededFood = 4;
-            Animal('D', "Deer", 2, 4, false, false, x, y);
+            setStats('D', "Deer", 2, 4, false, false, x, y);
             break;
         case 'R':
             neededFood = 2;
-            Animal('R', "Rabbit", 1, 2, false, false, x, y);
+            setStats('R', "Rabbit", 1, 2, false, false, x, y);
             break;
         case 'G':
             neededFood = 3;
-            Animal('G', "Groundog", 2, 3, true, true, x, y);
+            setStats('G', "Groundog", 2, 3, true, true, x, y);
             break;
         case 'S':
             neededFood = 1;
-            Animal('S', "Salmon", 1, 5, false, false, x, y);
+            setStats('S', "Salmon", 1, 5, false, false, x, y);
             break;
     }
 }
@@ -306,17 +312,17 @@ Carnivore::Carnivore(char mytoken, const int& x, const int& y)
     switch(mytoken){
         case 'F' :  attack = 1;
                     defence = 1;
-                    Animal('F', "Fox", 1, 1, false, false, x, y);
+                    setStats('F', "Fox", 1, 1, false, false, x, y);
         break;
         case 'W' :
                     attack = 2;
                     defence = 2;
-                    Animal('W', "Wolf", 1, 2, false, false, x, y);
+                    setStats('W', "Wolf", 1, 2, false, false, x, y);
         break;
         case 'B' :
                     attack = 6;
                     defence = 6;
-                    Animal('B', "Bear", 3, 4, true, false, x, y);
+                    setStats('B', "Bear", 3, 4, true, false, x, y);
         break;
     }
 }

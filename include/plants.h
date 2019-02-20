@@ -23,10 +23,6 @@ class Plant
     int getLife();
     int getLifeFactor();
 
-    // void setToken(char);
-    // void setName(std::string);
-    // void setLife(const int&);
-    // void setLifeFactor(const int&);
     void setStats(char, std::string, const int&, const int&, const int&, const int&, const int&, const int&);
     void virtual LoseLife(const int& eatCount);
     void virtual Growth(bool);

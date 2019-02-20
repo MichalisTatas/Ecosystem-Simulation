@@ -42,6 +42,8 @@ class Animal
     bool getInHibernation();
     bool getCanClimb();
     
+
+    void setStats(char, std::string, const int&, const int&, bool, bool, const int&, const int&);
     void setSize(const int&);
     void setHungerCount(const int&);
     void setEatenFood(const int&);
@@ -50,8 +52,6 @@ class Animal
     void setInHeat(bool);
     void setSpeed(const int&);
     void setInHibernation(bool);
-
-
     void setPointX(int);
     int getPointX();
     void setPointY(int);
