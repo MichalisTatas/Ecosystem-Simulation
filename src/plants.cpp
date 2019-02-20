@@ -25,6 +25,11 @@ Plant::~Plant()
 
 }
 
+char Plant::getToken()
+{
+    return token;
+}
+
 int Plant::getBreedingProb()
 {
     return breedingProb;
@@ -65,6 +70,13 @@ void Plant::Growth(bool happened)
     }
 }
 
+void Plant::setStats(char myToken, std::string myName, const int& myLife, const int& myIllnessProb, const int& myBreedingProb, const int& myLifeFactor, const int& x, const int& y)
+{
+    token = myToken; name = myName; life = myLife;
+    illnessProb = myIllnessProb; breedingProb = myBreedingProb;
+    lifeFactor = myLifeFactor; location.x = x; location.y = y;
+}
+
 //////////////////////////
 //Seeded's fuctions//
 //////////////////////////
@@ -75,19 +87,19 @@ Seeded::Seeded(char myToken, const int& x, const int& y)
             seeds = 10;
             foliage = 20;
             size = 2;
-            Plant(myToken,"Maple",20,5,5,10, x, y);
+            setStats(myToken,"Maple",20,5,5,10, x, y);
             break;
         case 'O' : 
             seeds = 15;
             foliage = 30;
             size = 5;
-            Plant(myToken,"Oak",30,20,20,15, x, y);
+            setStats(myToken,"Oak",30,20,20,15, x, y);
             break;
         case 'P' :
                 seeds = 20;;
                 foliage = 40;
                 size = 5;
-                Plant(myToken,"Pine",40,15,15,20, x, y);
+                setStats(myToken,"Pine",40,15,15,20, x, y);
             break;
     }
 }
@@ -162,10 +174,10 @@ Seedless::Seedless(char myToken, const int& x, const int& y)
 {
     switch(myToken){
         case 'G':
-            Plant(myToken,"Grass",5,15,15,4, x, y);
+            setStats(myToken,"Grass",5,15,15,4, x, y);
             break;
         case 'A':
-            Plant(myToken,"Algae",5,25,25,2, x, y);
+            setStats(myToken,"Algae",5,25,25,2, x, y);
             break;
     }
 }

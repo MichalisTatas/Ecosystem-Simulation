@@ -1,10 +1,10 @@
 #include <iostream>
 #include <cstdlib>
 #include <list>
-#include <iterator>
+// #include <iterator>
 #include "../include/classes.h"
 
-// using namespace std;
+using namespace std;
 
 tiles::tiles()
     : enviroment('0')
@@ -183,17 +183,17 @@ void ecosystem::PlacePlants()
                         switch (rand()%3) {
                             case 1: {
                                 seededPlant = new Seeded('M', x, y);
-                                seededList.push_front(seededPlant);
+                                seededList.push_back(seededPlant);
                                 break;
                             }
                             case 2: {
                                 seededPlant = new Seeded('O', x, y);
-                                seededList.push_front(seededPlant);
+                                seededList.push_back(seededPlant);
                                 break;
                             }
                             default:
                                 seedlessPlant = new Seedless('G', x, y);
-                                seedlessList.push_front(seedlessPlant);
+                                seedlessList.push_back(seedlessPlant);
                                 break;
                         }
                         break;
@@ -201,18 +201,18 @@ void ecosystem::PlacePlants()
                         switch (rand()%2) {
                             case 1: {
                                 seededPlant = new Seeded('M', x, y);
-                                seededList.push_front(seededPlant);
+                                seededList.push_back(seededPlant);
                                 break;
                             }
                             default:
                                 seededPlant = new Seeded('P', x, y);
-                                seededList.push_front(seededPlant);
+                                seededList.push_back(seededPlant);
                                 break;
                         }
                         break;
                     default:
                         seedlessPlant = new Seedless('A', x, y);
-                        seedlessList.push_front(seedlessPlant);
+                        seedlessList.push_back(seedlessPlant);
                         break;
                 }
             }
@@ -233,27 +233,27 @@ void ecosystem::PlaceAnimals()
                         switch (rand()%5) {
                             case 0: {
                                 herbivoreAnimal = new Herbivore('D', x, y);
-                                herbivoreList.push_front(herbivoreAnimal);
+                                herbivoreList.push_back(herbivoreAnimal);
                                 break;
                             }
                             case 1: {
                                 herbivoreAnimal = new Herbivore('R', x, y);
-                                herbivoreList.push_front(herbivoreAnimal);
+                                herbivoreList.push_back(herbivoreAnimal);
                                 break;
                             }
                             case 2: {
                                 herbivoreAnimal = new Herbivore('G', x, y);
-                                herbivoreList.push_front(herbivoreAnimal);
+                                herbivoreList.push_back(herbivoreAnimal);
                                 break;
                             }
                             case 3: {
                                 carnivoreAnimal = new Carnivore('F', x, y);
-                                carnivoreList.push_front(carnivoreAnimal);
+                                carnivoreList.push_back(carnivoreAnimal);
                                 break;
                             }
                             default:
                                 carnivoreAnimal = new Carnivore('W', x, y);
-                                carnivoreList.push_front(carnivoreAnimal);
+                                carnivoreList.push_back(carnivoreAnimal);
                                 break;
                         }
                         break;
@@ -261,18 +261,18 @@ void ecosystem::PlaceAnimals()
                         switch (rand()%2) {
                             case 0: {
                                 carnivoreAnimal = new Carnivore('W', x, y);
-                                carnivoreList.push_front(carnivoreAnimal);
+                                carnivoreList.push_back(carnivoreAnimal);
                                 break;
                             }
                             default:
                                 carnivoreAnimal = new Carnivore('B', x, y);
-                                carnivoreList.push_front(carnivoreAnimal);
+                                carnivoreList.push_back(carnivoreAnimal);
                                 break;
                         }
                         break;
                     default:
                         herbivoreAnimal = new Herbivore('S', x, y);
-                        herbivoreList.push_front(herbivoreAnimal);
+                        herbivoreList.push_back(herbivoreAnimal);
                         break;
                 }
             }
@@ -335,7 +335,11 @@ char ecosystem::findAnimal(const int& x, const int& y)
     return '0';
 }
 
-void ecosystem::PrintSystem() {
+void ecosystem::PrintSystem()
+{
+    list<Seeded*>::iterator it;
+    
+    std::cout << std::endl;
     for(int i=0; i < terrainSize; i++) {
         for(int j=0; j < terrainSize; j++) {
             std::cout << terrain[j][i]->getEnvironment() << " ";
@@ -344,13 +348,20 @@ void ecosystem::PrintSystem() {
     }
     std::cout << std::endl;
 
-    PrintAnimals();
-
-    std::list<Herbivore*>::iterator itH;
-
-    for(itH = herbivoreList.begin(); itH!=herbivoreList.end(); itH++) {
-        std::cout << (*itH)->getPointX() << " " << (*itH)->getPointY() << std::endl; 
+    for(it=seededList.begin(); it!=seededList.end(); it++) {
+        cout << (*it)->getSeeds() << " ";
+        cout << "1" << (*it)->getToken() << endl;;
     }
+        cout << endl;
+
+    // PrintAnimals();
+
+    // std::list<Herbivore*>::iterator itH;
+
+    // for(itH = herbivoreList.begin(); itH!=herbivoreList.end(); itH++) {
+    //     std::cout << (*itH)->getPointX() << " " << (*itH)->getPointY() << std::endl; 
+    // }
+
     
 }
 
