@@ -22,6 +22,11 @@ class ecosystem {
 
     int terrainSize;
     int dayOfYear;
+    int growthPeriodPlants;
+    int growthPeriodAnimals;
+    int breedingRepPeriodPlants;
+    int breedingRepPeriodHerbivore;
+    int breedingRepPeriodCarnivore;
     tiles*** terrain;
     
     std::list<Seeded*> seededList;

@@ -282,37 +282,143 @@ void ecosystem::PlaceAnimals()
 void ecosystem::RunEcosystem(const int& numberOdDays)
 {
     for(int i=0; i < numberOdDays; i++) {
-        // ApplySeason();
-        // DailyReset();
-        // AnimalMovement();
-        // AnimalEating();
-        // CheckDeadEntities();
-        // CheckHunger();
+        ApplySeason();
+        DailyReset();
+        for(int j=0; j < 24; j++) {
+            AnimalMovement();
+            // AnimalEating();
+        }
+        CheckHunger();
+        CheckDeadEntities();
         // AnimalBreeding();
         // PlantBreeding();
+        PrintAnimals();
     }
 }
 
 void ecosystem::ApplySeason()
 {
-    
+    switch (dayOfYear/90)
+    {
+        case 0: // winter
+            for(list<Carnivore*>::iterator it=carnivoreList.begin(); it != carnivoreList.end(); it++) {
+                if((*it)->getToken() == 'B') {
+                    (*it)->setInHibernation(true);
+                }
+            }
+            for(list<Herbivore*>::iterator it=herbivoreList.begin(); it != herbivoreList.end(); it++) {
+                if((*it)->getToken() == 'G') {
+                    (*it)->setInHibernation(true);
+                }
+            }
+            growthPeriodPlants = 0; growthPeriodPlants = 10;
+            growthPeriodAnimals = 30;
+            breedingRepPeriodHerbivore =18; breedingRepPeriodCarnivore = 10;
+            break;
+        case 1: //spring
+            growthPeriodPlants = 5; breedingRepPeriodPlants =10;
+            growthPeriodAnimals = 20;
+            breedingRepPeriodHerbivore =12; breedingRepPeriodCarnivore = 11;
+            break;
+        case 2: // summer
+            growthPeriodPlants = 10; breedingRepPeriodPlants =10;
+            growthPeriodAnimals = 30;
+            breedingRepPeriodHerbivore =8; breedingRepPeriodCarnivore = 9;
+            break;
+        default: //autumn
+            growthPeriodPlants = 0; breedingRepPeriodPlants =20;
+            growthPeriodAnimals = 15;
+            breedingRepPeriodHerbivore =5; breedingRepPeriodCarnivore = 9;
+            break;
+    }    
 }
 
-/*void ecosystem::RunEcosystem(){
-    for(int i=0; i<dayOfYear; i++){
-        switch(i/90){
-            case 1 :                                    //Spring
-            break;
-            case 2 :                                    //Summer
-            break;
-            case 3 :                                    //Autumn
-            break;
-            case 4 :                                    //Winter
-            break;
+void ecosystem::DailyReset()
+{
+    for(list<Carnivore*>::iterator it=carnivoreList.begin(); it != carnivoreList.end(); it++) {
+        (*it)->setIsHungry(true);
+        if(dayOfYear%breedingRepPeriodCarnivore) {
+            (*it)->setInHeat(true);
+        }
+        else {
+            (*it)->setInHeat(false);
+        }
+    }
+    for(list<Herbivore*>::iterator it=herbivoreList.begin(); it != herbivoreList.end(); it++) {
+        (*it)->setIsHungry(true);
+        if(dayOfYear%breedingRepPeriodHerbivore) {
+            (*it)->setInHeat(true);
+        }
+        else {
+            (*it)->setInHeat(false);
         }
     }
 }
-*/
+
+void ecosystem::AnimalMovement()
+{
+    for(list<Carnivore*>::iterator it=carnivoreList.begin(); it != carnivoreList.end(); it++) {
+        if((*it)->getIsAlive()) {
+            (*it)->Move(terrainSize);
+        }
+    }
+    for(list<Herbivore*>::iterator it=herbivoreList.begin(); it != herbivoreList.end(); it++) {
+        if((*it)->getIsAlive()) {
+            (*it)->Move(terrainSize, terrain);
+        }
+    }
+}
+
+void ecosystem::CheckHunger()
+{
+    for(list<Carnivore*>::iterator it=carnivoreList.begin(); it != carnivoreList.end(); it++) {
+        if((*it)->getIsHungry()) {
+            (*it)->setHungerCount((*it)->getHungerCount() + 1);
+            if((*it)->getHungerCount() == 10) {
+                (*it)->Kill();
+            }
+        }
+    }
+    for(list<Herbivore*>::iterator it=herbivoreList.begin(); it != herbivoreList.end(); it++) {
+        if((*it)->getIsHungry()) {
+            (*it)->setHungerCount((*it)->getHungerCount() + 1);
+            if((*it)->getHungerCount() == 10) {
+                (*it)->Kill();
+            }
+        }
+    }
+}
+
+void ecosystem::CheckDeadEntities()
+{
+    int hey = 0;
+    for(list<Carnivore*>::iterator it=carnivoreList.begin(); it != carnivoreList.end(); ) {
+        if(!(*it)->getIsAlive()) {
+            // cout << hey++ << endl;
+            it = carnivoreList.erase(it);
+            // cout << hey++ << endl;
+        }
+        else it++;
+    }
+    for(list<Herbivore*>::iterator it=herbivoreList.begin(); it != herbivoreList.end(); ) {
+        if(!(*it)->getIsAlive()) {
+            it = herbivoreList.erase(it);
+        }
+        else it++;
+    }
+    for(list<Seeded*>::iterator it=seededList.begin(); it != seededList.end(); ) {
+        if((*it)->getLife() == 0) {
+            it = seededList.erase(it);
+        }
+        else it++;
+    }
+    for(list<Seedless*>::iterator it=seedlessList.begin(); it != seedlessList.end(); ) {
+        if((*it)->getLife() ==  0) {
+            it = seedlessList.erase(it);
+        }
+        else it++;
+    }
+}
 
 char ecosystem::findAnimal(const int& x, const int& y)
 {
@@ -321,14 +427,12 @@ char ecosystem::findAnimal(const int& x, const int& y)
 
     for(itH = herbivoreList.begin(); itH!=herbivoreList.end(); itH++) {
         if((*itH)->getPointX()==x && (*itH)->getPointY()==y) {
-            return '7';
-            // return itH->getToken();
+            return (*itH)->getToken();
         }
     }
     for(itC = carnivoreList.begin(); itC!=carnivoreList.end(); itC++) {
         if((*itC)->getPointX()==x && (*itC)->getPointY()==y) {
-            return '7';
-            // return itC->getToken();
+            return (*itC)->getToken();
         }
     }
 
@@ -336,9 +440,7 @@ char ecosystem::findAnimal(const int& x, const int& y)
 }
 
 void ecosystem::PrintSystem()
-{
-    list<Seeded*>::iterator it;
-    
+{   
     std::cout << std::endl;
     for(int i=0; i < terrainSize; i++) {
         for(int j=0; j < terrainSize; j++) {
@@ -347,22 +449,6 @@ void ecosystem::PrintSystem()
         std::cout << std::endl;
     }
     std::cout << std::endl;
-
-    for(it=seededList.begin(); it!=seededList.end(); it++) {
-        cout << (*it)->getSeeds() << " ";
-        cout << "1" << (*it)->getToken() << endl;;
-    }
-        cout << endl;
-
-    // PrintAnimals();
-
-    // std::list<Herbivore*>::iterator itH;
-
-    // for(itH = herbivoreList.begin(); itH!=herbivoreList.end(); itH++) {
-    //     std::cout << (*itH)->getPointX() << " " << (*itH)->getPointY() << std::endl; 
-    // }
-
-    
 }
 
 void ecosystem::PrintAnimals()
