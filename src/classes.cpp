@@ -343,6 +343,9 @@ void ecosystem::DailyReset()
         else {
             (*it)->setInHeat(false);
         }
+        if(dayOfYear%growthPeriodAnimals) {
+            (*it)->Raise();
+        }
     }
     for(list<Herbivore*>::iterator it=herbivoreList.begin(); it != herbivoreList.end(); it++) {
         (*it)->setIsHungry(true);
@@ -351,6 +354,9 @@ void ecosystem::DailyReset()
         }
         else {
             (*it)->setInHeat(false);
+        }
+        if(dayOfYear%growthPeriodAnimals) {
+            (*it)->Raise();
         }
     }
 }
