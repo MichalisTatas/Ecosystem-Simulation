@@ -6,15 +6,16 @@
 #include "animals.h"
 
 class tiles {
-    //plant*
+    char enviroment;
+    bool hasPlant = false;
     //animals**
-     char enviroment;
 
     public:
 
     tiles();
-    // ~tiles();
+    bool getHasPlant();
     char getEnvironment();
+    void setHasPLant(bool);
     void setEnviroment(const char&);
 };
 
@@ -50,12 +51,15 @@ class ecosystem {
     void CheckHunger();
     void AnimalBreeding();
     void PlantBreeding();
-    point FindFreeTile();
+    point FindFreeTile(char, const int&, const int&);
+
+    bool findHerbivore(const int&, const int&, const int& size, const int&);
+    int findPLantToEat(const int&, const int&, char, const int&, int, bool);
 
     char findAnimal(const int&, const int&);
     char findPlant(const int&, const int&);
-
     void PrintAnimals();
+    void PrintPlants();
 
     public:
     

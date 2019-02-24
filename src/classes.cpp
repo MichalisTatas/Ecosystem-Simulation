@@ -17,6 +17,16 @@ char tiles::getEnvironment()
     return enviroment;
 }
 
+bool tiles::getHasPlant()
+{
+    return hasPlant;
+}
+
+void tiles::setHasPLant(bool a)
+{
+    hasPlant = a;    
+}
+
 void tiles::setEnviroment(const char& ch)
 {
     enviroment = ch;
@@ -62,7 +72,7 @@ void ecosystem::MapGenerator()
 
 void ecosystem::GenerateRiver()
 {
-    int x=0, y= 5 + rand()%(terrainSize-10);
+    int x=0, y= 4 + rand()%(terrainSize-8);
     terrain[x][y]->setEnviroment('#');
     while(x < terrainSize-1) {
         if(rand()%10 < 3) {
@@ -121,22 +131,25 @@ void ecosystem::GenerateLake()
 
 void ecosystem::GenerateHills()
 {
-    int size, hills=terrainSize/5, x = rand()%(terrainSize-hills), y = rand()%(terrainSize-hills), joker=y;
-    bool cleanGrount = true;
+    int size, hills=terrainSize/5, x, y, joker;
+    bool cleanGround = true;
 
     for(int count=0; count < hills; ) {
         size = (rand()%3)+2;
-        cleanGrount = true;
+        x = rand()%(terrainSize-size);
+        y = rand()%(terrainSize-size);
+        joker = y;
+        cleanGround = true;
 
         for(int i=0; i < size; i++) {
             for(int j=0; j < size; j++) {
                 if(terrain[x][y++]->getEnvironment() != '0') {
-                    cleanGrount = false;
+                    cleanGround = false;
                 }
             }
             y = joker; x++;
         }
-        if(cleanGrount) {
+        if(cleanGround) {
             for(int i=0; i < size; i++) {
                 x--;
                 for( int j=0; j < size; j++) {
@@ -174,6 +187,7 @@ void ecosystem::PlacePlants()
 {
     Seeded* seededPlant;
     Seedless* seedlessPlant;
+    int count = 0;
 
     for(int x=0; x < terrainSize; x++) {
         for(int y=0; y < terrainSize; y++) {
@@ -183,17 +197,23 @@ void ecosystem::PlacePlants()
                         switch (rand()%3) {
                             case 1: {
                                 seededPlant = new Seeded('M', x, y);
+                                terrain[x][y]->setHasPLant(true);
                                 seededList.push_back(seededPlant);
+                                count ++;
                                 break;
                             }
                             case 2: {
                                 seededPlant = new Seeded('O', x, y);
+                                terrain[x][y]->setHasPLant(true);
                                 seededList.push_back(seededPlant);
+                                count ++;
                                 break;
                             }
                             default:
                                 seedlessPlant = new Seedless('G', x, y);
+                                terrain[x][y]->setHasPLant(true);
                                 seedlessList.push_back(seedlessPlant);
+                                count ++;
                                 break;
                         }
                         break;
@@ -201,23 +221,30 @@ void ecosystem::PlacePlants()
                         switch (rand()%2) {
                             case 1: {
                                 seededPlant = new Seeded('M', x, y);
+                                terrain[x][y]->setHasPLant(true);
                                 seededList.push_back(seededPlant);
+                                count ++;
                                 break;
                             }
                             default:
                                 seededPlant = new Seeded('P', x, y);
+                                terrain[x][y]->setHasPLant(true);
                                 seededList.push_back(seededPlant);
+                                count ++;
                                 break;
                         }
                         break;
                     default:
                         seedlessPlant = new Seedless('A', x, y);
+                        terrain[x][y]->setHasPLant(true);
                         seedlessList.push_back(seedlessPlant);
+                        count ++;
                         break;
                 }
             }
         }
     }
+    cout << "Plants Generated:" << count << endl;
 }
 
 void ecosystem::PlaceAnimals()
@@ -233,45 +260,53 @@ void ecosystem::PlaceAnimals()
                         switch (rand()%5) {
                             case 0: {
                                 herbivoreAnimal = new Herbivore('D', x, y);
+                                herbivoreAnimal->eloBoost();
                                 herbivoreList.push_back(herbivoreAnimal);
                                 break;
                             }
                             case 1: {
                                 herbivoreAnimal = new Herbivore('R', x, y);
+                                herbivoreAnimal->eloBoost();
                                 herbivoreList.push_back(herbivoreAnimal);
                                 break;
                             }
                             case 2: {
                                 herbivoreAnimal = new Herbivore('G', x, y);
+                                herbivoreAnimal->eloBoost();
                                 herbivoreList.push_back(herbivoreAnimal);
                                 break;
                             }
                             case 3: {
                                 carnivoreAnimal = new Carnivore('F', x, y);
+                                carnivoreAnimal->eloBoost();
                                 carnivoreList.push_back(carnivoreAnimal);
                                 break;
                             }
                             default:
                                 carnivoreAnimal = new Carnivore('W', x, y);
+                                carnivoreAnimal->eloBoost();
                                 carnivoreList.push_back(carnivoreAnimal);
                                 break;
                         }
                         break;
                     case '^':
-                        switch (rand()%2) {
+                        switch (rand()%8) {
                             case 0: {
                                 carnivoreAnimal = new Carnivore('W', x, y);
+                                carnivoreAnimal->eloBoost();
                                 carnivoreList.push_back(carnivoreAnimal);
                                 break;
                             }
-                            default:
+                            case 1:
                                 carnivoreAnimal = new Carnivore('B', x, y);
+                                carnivoreAnimal->eloBoost();
                                 carnivoreList.push_back(carnivoreAnimal);
                                 break;
                         }
                         break;
                     default:
                         herbivoreAnimal = new Herbivore('S', x, y);
+                        herbivoreAnimal->eloBoost();
                         herbivoreList.push_back(herbivoreAnimal);
                         break;
                 }
@@ -282,17 +317,22 @@ void ecosystem::PlaceAnimals()
 void ecosystem::RunEcosystem(const int& numberOdDays)
 {
     for(int i=0; i < numberOdDays; i++) {
+        dayOfYear++;
+        if(dayOfYear == 361) {
+            dayOfYear = 1;
+        }
         ApplySeason();
         DailyReset();
+        PrintAnimals();
         for(int j=0; j < 24; j++) {
             AnimalMovement();
-            // AnimalEating();
+            AnimalEating();
         }
         CheckHunger();
         CheckDeadEntities();
-        // AnimalBreeding();
-        // PlantBreeding();
-        PrintAnimals();
+        AnimalBreeding();
+        PlantBreeding();
+        // PrintPlants();
     }
 }
 
@@ -302,20 +342,30 @@ void ecosystem::ApplySeason()
     {
         case 0: // winter
             for(list<Carnivore*>::iterator it=carnivoreList.begin(); it != carnivoreList.end(); it++) {
-                if((*it)->getToken() == 'B') {
+                if((*it)->getHibernates()) {
                     (*it)->setInHibernation(true);
                 }
             }
             for(list<Herbivore*>::iterator it=herbivoreList.begin(); it != herbivoreList.end(); it++) {
-                if((*it)->getToken() == 'G') {
+                if((*it)->getHibernates()) {
                     (*it)->setInHibernation(true);
                 }
             }
-            growthPeriodPlants = 0; growthPeriodPlants = 10;
+            growthPeriodPlants = 0; breedingRepPeriodPlants = 10;
             growthPeriodAnimals = 30;
             breedingRepPeriodHerbivore =18; breedingRepPeriodCarnivore = 10;
             break;
         case 1: //spring
+            for(list<Carnivore*>::iterator it=carnivoreList.begin(); it != carnivoreList.end(); it++) {
+                if((*it)->getToken() == 'B') {
+                    (*it)->setInHibernation(false);
+                }
+            }
+            for(list<Herbivore*>::iterator it=herbivoreList.begin(); it != herbivoreList.end(); it++) {
+                if((*it)->getToken() == 'G') {
+                    (*it)->setInHibernation(false);
+                }
+            }
             growthPeriodPlants = 5; breedingRepPeriodPlants =10;
             growthPeriodAnimals = 20;
             breedingRepPeriodHerbivore =12; breedingRepPeriodCarnivore = 11;
@@ -336,27 +386,55 @@ void ecosystem::ApplySeason()
 void ecosystem::DailyReset()
 {
     for(list<Carnivore*>::iterator it=carnivoreList.begin(); it != carnivoreList.end(); it++) {
-        (*it)->setIsHungry(true);
-        if(dayOfYear%breedingRepPeriodCarnivore) {
-            (*it)->setInHeat(true);
-        }
-        else {
-            (*it)->setInHeat(false);
-        }
-        if(dayOfYear%growthPeriodAnimals) {
-            (*it)->Raise();
+        if(!(*it)->getInHibernation()) {
+            (*it)->setIsHungry(true);
+            if(dayOfYear%breedingRepPeriodCarnivore == 0) {
+                (*it)->setInHeat(true); 
+
+            }
+            else {
+                (*it)->setInHeat(false);
+            }
+            if(dayOfYear%growthPeriodAnimals == 0) {
+                (*it)->Raise();
+            }
         }
     }
     for(list<Herbivore*>::iterator it=herbivoreList.begin(); it != herbivoreList.end(); it++) {
-        (*it)->setIsHungry(true);
-        if(dayOfYear%breedingRepPeriodHerbivore) {
-            (*it)->setInHeat(true);
+        if(!(*it)->getInHibernation()) {
+            if((*it)->getHungerCount()==7) {
+                if(!(*it)->getIsHungry()) {
+                    (*it)->setIsHungry(true);
+                    (*it)->setHungerCount(0);
+                }
+            }
+            if(dayOfYear%breedingRepPeriodHerbivore == 0) {
+                (*it)->setInHeat(true);
+            }
+            else {
+                    (*it)->setInHeat(false);
+            }
+            if(dayOfYear%growthPeriodAnimals == 0) {
+                (*it)->Raise();
+            }
         }
-        else {
-            (*it)->setInHeat(false);
+    }
+    for(list<Seeded*>::iterator it=seededList.begin(); it != seededList.end(); it++) {
+        if(dayOfYear&growthPeriodPlants == 0) {
+            if(rand()%100 < (*it)->getIllnessProb())
+                (*it)->Growth(false);
+            else
+                (*it)->Growth(true);
         }
-        if(dayOfYear%growthPeriodAnimals) {
-            (*it)->Raise();
+    }
+    for(list<Seedless*>::iterator it=seedlessList.begin(); it != seedlessList.end(); it++) {
+        if(dayOfYear&growthPeriodPlants == 0) {
+            if(rand()%100 < (*it)->getIllnessProb()) {
+                (*it)->LoseLife((*it)->getLifeFactor());
+            }
+            else {
+                (*it)->Growth();
+            }
         }
     }
 }
@@ -364,13 +442,39 @@ void ecosystem::DailyReset()
 void ecosystem::AnimalMovement()
 {
     for(list<Carnivore*>::iterator it=carnivoreList.begin(); it != carnivoreList.end(); it++) {
-        if((*it)->getIsAlive()) {
+        if((*it)->getIsAlive() && !(*it)->getInHibernation()) {
             (*it)->Move(terrainSize);
         }
     }
     for(list<Herbivore*>::iterator it=herbivoreList.begin(); it != herbivoreList.end(); it++) {
-        if((*it)->getIsAlive()) {
+        if((*it)->getIsAlive() && !(*it)->getInHibernation()) {
             (*it)->Move(terrainSize, terrain);
+        }
+    }
+}
+
+void ecosystem::AnimalEating()
+{
+    for(list<Carnivore*>::iterator it=carnivoreList.begin(); it != carnivoreList.end(); it++) {
+        if(!(*it)->getInHibernation()) {
+            if((*it)->getIsHungry()) {
+                if(findHerbivore((*it)->getPointX(), (*it)->getPointY(), (*it)->getSize(), (*it)->getSpeed())) {
+                    (*it)->setIsHungry(false);
+                    (*it)->setHungerCount(0);
+                }
+            }
+        }
+    }
+    for(list<Herbivore*>::iterator it=herbivoreList.begin(); it != herbivoreList.end(); it++) {
+        if(!(*it)->getInHibernation()) {
+            if((*it)->getIsHungry()) {
+                (*it)->setEatenFood(findPLantToEat((*it)->getPointX(), (*it)->getPointY(), (*it)->getToken(), (*it)->getSize(), (*it)->getEatMax(), (*it)->getCanClimb()));
+                if((*it)->getEatenFood() == (*it)->getNeededFood()) {
+                    (*it)->setIsHungry(false);
+                    (*it)->setEatenFood(0);
+                    (*it)->setHungerCount(0);
+                }
+            }
         }
     }
 }
@@ -378,31 +482,30 @@ void ecosystem::AnimalMovement()
 void ecosystem::CheckHunger()
 {
     for(list<Carnivore*>::iterator it=carnivoreList.begin(); it != carnivoreList.end(); it++) {
-        if((*it)->getIsHungry()) {
-            (*it)->setHungerCount((*it)->getHungerCount() + 1);
-            if((*it)->getHungerCount() == 10) {
-                (*it)->Kill();
+        if(!(*it)->getInHibernation())
+            if((*it)->getIsHungry()) {
+                (*it)->setHungerCount((*it)->getHungerCount() + 1);
+                if((*it)->getHungerCount() == 10) {
+                    (*it)->Kill();
+                }
             }
-        }
     }
     for(list<Herbivore*>::iterator it=herbivoreList.begin(); it != herbivoreList.end(); it++) {
-        if((*it)->getIsHungry()) {
-            (*it)->setHungerCount((*it)->getHungerCount() + 1);
-            if((*it)->getHungerCount() == 10) {
-                (*it)->Kill();
+        if(!(*it)->getInHibernation())
+            if((*it)->getIsHungry()) {
+                (*it)->setHungerCount((*it)->getHungerCount() + 1);
+                if((*it)->getHungerCount() == 10) {
+                    (*it)->Kill();
+                }
             }
-        }
     }
 }
 
 void ecosystem::CheckDeadEntities()
 {
-    int hey = 0;
     for(list<Carnivore*>::iterator it=carnivoreList.begin(); it != carnivoreList.end(); ) {
         if(!(*it)->getIsAlive()) {
-            // cout << hey++ << endl;
             it = carnivoreList.erase(it);
-            // cout << hey++ << endl;
         }
         else it++;
     }
@@ -414,16 +517,270 @@ void ecosystem::CheckDeadEntities()
     }
     for(list<Seeded*>::iterator it=seededList.begin(); it != seededList.end(); ) {
         if((*it)->getLife() == 0) {
+            terrain[(*it)->getPointX()][(*it)->getPointY()]->setHasPLant(false);
             it = seededList.erase(it);
         }
         else it++;
     }
     for(list<Seedless*>::iterator it=seedlessList.begin(); it != seedlessList.end(); ) {
         if((*it)->getLife() ==  0) {
+            terrain[(*it)->getPointX()][(*it)->getPointY()]->setHasPLant(false);
             it = seedlessList.erase(it);
         }
         else it++;
     }
+}
+
+void ecosystem::AnimalBreeding()
+{
+    Carnivore* myCarnivore;
+    Herbivore* myHerbivore;
+
+    for(list<Carnivore*>::iterator it=carnivoreList.begin(); it != carnivoreList.end(); it++) {
+        if((*it)->getInHeat()) {
+            if(rand()%10 < 5) {
+                myCarnivore = new Carnivore((*it)->getToken(), (*it)->getPointX(), (*it)->getPointY());
+                carnivoreList.push_front(myCarnivore);
+            }
+        }
+    }
+    for(list<Herbivore*>::iterator it=herbivoreList.begin(); it != herbivoreList.end(); it++) {
+        if((*it)->getInHeat()) {
+            if(true) {
+                myHerbivore = new Herbivore((*it)->getToken(), (*it)->getPointX(), (*it)->getPointY());
+                herbivoreList.push_front(myHerbivore);
+            }
+        }
+    }
+}
+
+void ecosystem::PlantBreeding()
+{
+    Seeded* mySeeded;
+    Seedless* mySeedless;
+    point location;
+
+    if(dayOfYear%breedingRepPeriodPlants == 0) {
+        for(list<Seeded*>::iterator it=seededList.begin(); it != seededList.end(); it++) {
+            if(rand()%100 < (*it)->getBreedingProb()) {
+                location = FindFreeTile((*it)->getToken(), (*it)->getPointX(), (*it)->getPointY());
+                if(location.x != -1 && location.y != -1) {
+                    mySeeded = new Seeded((*it)->getToken(), location.x, location.y);
+                    seededList.push_front(mySeeded);
+                }
+            }
+        }
+        for(list<Seedless*>::iterator it=seedlessList.begin(); it != seedlessList.end(); it++) {
+            if(rand()%100 < (*it)->getBreedingProb()) {
+                location = FindFreeTile((*it)->getToken(), (*it)->getPointX(), (*it)->getPointY());
+                if(location.x != -1 && location.y != -1) {
+                    mySeedless = new Seedless((*it)->getToken(), location.x, location.y);
+                    seedlessList.push_front(mySeedless);
+                }
+            }
+        }
+    }
+}
+
+point ecosystem::FindFreeTile(char token, const int& x, const int& y)
+{
+    point location;
+
+    switch (token) {
+        case 'P': //mountains only
+            if(x > 0) {
+                if(!terrain[x-1][y]->getHasPlant() && terrain[x-1][y]->getEnvironment() == '^') {
+                    location.x = x-1; location.y = y;
+                    return location;
+                }
+            }
+            if(x < terrainSize-1) {
+                if(!terrain[x+1][y]->getHasPlant() && terrain[x+1][y]->getEnvironment() == '^') {
+                    location.x = x+1; location.y = y;
+                    return location;
+                }
+            }
+            if(y > 0) {
+                if(!terrain[x][y-1]->getHasPlant() && terrain[x][y-1]->getEnvironment() == '^') {
+                    location.x = x; location.y = y-1;
+                    return location;
+                }
+            }
+            if(y < terrainSize-1) {
+                if(!terrain[x][y+1]->getHasPlant() && terrain[x][y+1]->getEnvironment() == '^') {
+                    location.x = x; location.y = y+1;
+                    return location;
+                }
+            }
+            break;
+        case 'M': //land
+            if(x > 0) {
+                if(!terrain[x-1][y]->getHasPlant() && terrain[x-1][y]->getEnvironment() != '#') {
+                    location.x = x-1; location.y = y;
+                    return location;
+                }
+            }
+            if(x < terrainSize-1) {
+                if(!terrain[x+1][y]->getHasPlant() && terrain[x+1][y]->getEnvironment() != '#') {
+                    location.x = x+1; location.y = y;
+                    return location;
+                }
+            }
+            if(y > 0) {
+                if(!terrain[x][y-1]->getHasPlant() && terrain[x][y-1]->getEnvironment() != '#') {
+                    location.x = x; location.y = y-1;
+                    return location;
+                }
+            }
+            if(y < terrainSize-1) {
+                if(!terrain[x][y+1]->getHasPlant() && terrain[x][y+1]->getEnvironment() != '#') {
+                    location.x = x; location.y = y+1;
+                    return location;
+                }
+            }
+            break;
+        case 'G': //fields only
+            if(x > 0) {
+                if(!terrain[x-1][y]->getHasPlant() && terrain[x-1][y]->getEnvironment() == '"') {
+                    location.x = x-1; location.y = y;
+                    return location;
+                }
+            }
+            if(x < terrainSize-1) {
+                if(!terrain[x+1][y]->getHasPlant() && terrain[x+1][y]->getEnvironment() == '"') {
+                    location.x = x+1; location.y = y;
+                    return location;
+                }
+            }
+            if(y > 0) {
+                if(!terrain[x][y-1]->getHasPlant() && terrain[x][y-1]->getEnvironment() == '"') {
+                    location.x = x; location.y = y-1;
+                    return location;
+                }
+            }
+            if(y < terrainSize-1) {
+                if(!terrain[x][y+1]->getHasPlant() && terrain[x][y+1]->getEnvironment() == '"') {
+                    location.x = x; location.y = y+1;
+                    return location;
+                }
+            }
+            break;
+        case 'O': //fields only
+            if(x > 0) {
+                if(!terrain[x-1][y]->getHasPlant() && terrain[x-1][y]->getEnvironment() == '"') {
+                    location.x = x-1; location.y = y;
+                    return location;
+                }
+            }
+            if(x < terrainSize-1) {
+                if(!terrain[x+1][y]->getHasPlant() && terrain[x+1][y]->getEnvironment() == '"') {
+                    location.x = x+1; location.y = y;
+                    return location;
+                }
+            }
+            if(y > 0) {
+                if(!terrain[x][y-1]->getHasPlant() && terrain[x][y-1]->getEnvironment() == '"') {
+                    location.x = x; location.y = y-1;
+                    return location;
+                }
+            }
+            if(y < terrainSize-1) {
+                if(!terrain[x][y+1]->getHasPlant() && terrain[x][y+1]->getEnvironment() == '"') {
+                    location.x = x; location.y = y+1;
+                    return location;
+                }
+            }
+            break;
+        default: //water
+            if(x > 0) {
+                if(!terrain[x-1][y]->getHasPlant() && terrain[x-1][y]->getEnvironment() == '#') {
+                    location.x = x-1; location.y = y;
+                    return location;
+                }
+            }
+            if(x < terrainSize-1) {
+                if(!terrain[x+1][y]->getHasPlant() && terrain[x+1][y]->getEnvironment() == '#') {
+                    location.x = x+1; location.y = y;
+                    return location;
+                }
+            }
+            if(y > 0) {
+                if(!terrain[x][y-1]->getHasPlant() && terrain[x][y-1]->getEnvironment() == '#') {
+                    location.x = x; location.y = y-1;
+                    return location;
+                }
+            }
+            if(y < terrainSize-1) {
+                if(!terrain[x][y+1]->getHasPlant() && terrain[x][y+1]->getEnvironment() == '#') {
+                    location.x = x; location.y = y+1;
+                    return location;
+                }
+            }
+            break;
+    }
+        location.x = -1; location.y = -1;
+        return location;
+}
+
+bool ecosystem::findHerbivore(const int& x, const int& y, const int& size, const int& speed)
+{   
+    for(list<Herbivore*>::iterator it=herbivoreList.begin(); it != herbivoreList.end(); it++) {
+        if((*it)->getPointX()==x && (*it)->getPointY() ==y) {
+            if((*it)->getSize()<=size && (*it)->getSpeed()<=speed) {
+                herbivoreList.erase(it);
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+int ecosystem::findPLantToEat(const int& x , const int& y, char token, const int& size, int eatMax, bool canClimb)
+{
+    for(list<Seeded*>::iterator it=seededList.begin(); it != seededList.end(); it++) {
+        if((*it)->getPointX()==x && (*it)->getPointY()==y) {
+            if((*it)->getSize()<=size || canClimb) {
+                if((*it)->getLife() >= eatMax) {
+                    (*it)->LoseLife(eatMax);
+                    return eatMax;
+                }
+                else {
+                    eatMax = (*it)->getLife();
+                    (*it)->LoseLife((*it)->getLife());
+                    return eatMax;
+                }
+            }
+        }
+    }
+    for(list<Seedless*>::iterator it=seedlessList.begin(); it != seedlessList.end(); it++) {
+        if((*it)->getPointX()==x && (*it)->getPointY()==y) {
+            if(token == 'R' || token == 'G') {
+                if((*it)->getToken() != 'A') {
+                    if((*it)->getLife() >= eatMax) {
+                        (*it)->LoseLife(eatMax);
+                        return eatMax;
+                    }
+                    else {
+                        eatMax = (*it)->getLife();
+                        (*it)->LoseLife((*it)->getLife());
+                        return eatMax;
+                    }
+                }
+            }
+            else {
+                if((*it)->getLife() >= eatMax) {
+                    (*it)->LoseLife(eatMax);
+                    return eatMax;
+                }
+                else {
+                    eatMax = (*it)->getLife();
+                    (*it)->LoseLife((*it)->getLife());
+                    return eatMax;
+                }
+            }
+        }
+    }
+    return 0;
 }
 
 char ecosystem::findAnimal(const int& x, const int& y)
@@ -439,6 +796,25 @@ char ecosystem::findAnimal(const int& x, const int& y)
     for(itC = carnivoreList.begin(); itC!=carnivoreList.end(); itC++) {
         if((*itC)->getPointX()==x && (*itC)->getPointY()==y) {
             return (*itC)->getToken();
+        }
+    }
+
+    return '0';
+}
+
+char ecosystem::findPlant(const int& x, const int& y)
+{
+    std::list<Seeded*>::iterator itD;
+    std::list<Seedless*>::iterator itL;
+
+    for(itD = seededList.begin(); itD!=seededList.end(); itD++) {
+        if((*itD)->getPointX()==x && (*itD)->getPointY()==y) {
+            return (*itD)->getToken();
+        }
+    }
+    for(itL = seedlessList.begin(); itL!=seedlessList.end(); itL++) {
+        if((*itL)->getPointX()==x && (*itL)->getPointY()==y) {
+            return (*itL)->getToken();
         }
     }
 
@@ -464,6 +840,26 @@ void ecosystem::PrintAnimals()
     for(int i=0; i < terrainSize; i++) {
         for(int j=0; j < terrainSize; j++) {
             myToken = findAnimal(j, i);
+            if(myToken != '0') {
+                std::cout << myToken << " ";
+            }
+            else {
+                std::cout << terrain[j][i]->getEnvironment() << " ";
+            }
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
+}
+
+
+void ecosystem::PrintPlants()
+{
+    char myToken;
+
+    for(int i=0; i < terrainSize; i++) {
+        for(int j=0; j < terrainSize; j++) {
+            myToken = findPlant(j, i);
             if(myToken != '0') {
                 std::cout << myToken << " ";
             }

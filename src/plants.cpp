@@ -2,14 +2,9 @@
 #include <string>
 #include "../include/plants.h"
 
-// using namespace std;
 /////////////////////
 //Plant's functions//
 /////////////////////
-// Plant::Plant()
-// {
-
-// }
 Plant::Plant()
 {
 
@@ -20,6 +15,7 @@ Plant::Plant(char myToken, std::string myName, const int& myLife, const int& myI
 {
     location.x = x; location.y = y;
 }
+
 Plant::~Plant()
 {
 
@@ -50,24 +46,22 @@ int Plant::getLifeFactor()
     return lifeFactor;
 }
 
+int Plant::getPointX(){
+    return location.x;
+}
+
+int Plant::getPointY(){
+    return location.y;
+}
+
 void Plant::LoseLife(const int& eatCount)
 {
     life -= eatCount;
 }
 
-void Plant::Growth(bool happened)
+void Plant::Growth()
 {
-    if(happened) {
-        life += lifeFactor;
-    }
-    else {
-        if(life >= lifeFactor) {
-            life -= lifeFactor;
-        }
-        else {
-            life = 0;
-        }
-    }
+    life += lifeFactor;
 }
 
 void Plant::setStats(char myToken, std::string myName, const int& myLife, const int& myIllnessProb, const int& myBreedingProb, const int& myLifeFactor, const int& x, const int& y)
@@ -109,6 +103,11 @@ Seeded::~Seeded()
 
 }
 
+int Seeded::getLife()
+{
+    return (seeds + Plant::getLife());
+}
+
 int Seeded::getFoliage()
 {
     return foliage;
@@ -119,28 +118,24 @@ int Seeded::getSeeds()
     return seeds;
 }
 
-void Seeded::LoseLife(const int& eatCount)
+int Seeded::getSize()
 {
-    if(seeds >= eatCount) {
-        seeds -= eatCount;
-    }
-    else {
-        if((foliage+seeds) >= eatCount) {
-            foliage -= (eatCount-seeds);
-            seeds = 0;
-            if(getLife() >= (eatCount-seeds)) {
-                Plant::LoseLife((eatCount-seeds));
-            }
-            else {
-                Plant::LoseLife(getLife());
-            }
+    return size;
+}
+
+void Seeded::LoseLife(int eatCount)
+{
+    if(seeds > 0) {
+        if(seeds >= eatCount) {
+            seeds -= eatCount;
         }
         else {
-            Plant::LoseLife(foliage);
-            Plant::LoseLife(eatCount-foliage);
-            seeds = 0; foliage = 0;
+            eatCount -= seeds;
+            seeds = 0;
         }
     }
+    foliage -= eatCount;
+    Plant::LoseLife(eatCount);
 }
 
 void Seeded::Growth(bool happened)

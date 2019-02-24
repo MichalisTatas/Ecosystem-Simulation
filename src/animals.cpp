@@ -18,9 +18,9 @@ Animal::Animal(char mytoken, std::string myname, const int& mysize, const int& m
 
 Animal::~Animal(){}
 
-std::string Animal::getName()
+char Animal::getToken()
 {
-    return name;
+    return token;
 }
 
 int Animal::getSize()
@@ -72,6 +72,16 @@ bool Animal::getCanClimb()
     return canClimb;
 }
 
+int Animal::getPointX()
+{
+    return location.x;
+}
+
+int Animal::getPointY()
+{
+    return location.y;
+}
+
 void Animal::setStats(char mytoken, std::string myname, const int& mysize, const int& myspeed, bool myhibernates, bool mycanClimb, const int& x, const int& y)
 {
     token = mytoken; name = myname; size = mysize; speed = myspeed;
@@ -90,7 +100,7 @@ void Animal::setHungerCount(const int& a)
 
 void Animal::setEatenFood(const int& b)
 {
-    eatenFood = b;
+    eatenFood += b;
 }
 
 void Animal::Kill()
@@ -123,21 +133,33 @@ void Animal::setPointX(bool a){
     else location.x = location.x - 1;
 }
 
-int Animal::getPointX(){
-    return location.x;
-}
-
 void Animal::setPointY(bool a){
     if(a) location.y = location.y + 1;
     else location.y = location.y - 1;
 }
 
-int Animal::getPointY(){
-    return location.y;
-}
-
-char Animal::getToken(){
-    return token;
+void Animal::eloBoost()
+{
+    switch (token) {
+        case 'G':
+            size = 3; speed = 5;
+            break;
+        case 'D':
+            size = 5; speed = 8;
+            break;
+        case 'R':
+            size = 2; speed = 6;
+            break;
+        case 'B':
+            size = 10; speed = 4;
+            break;
+        case 'F':
+            size = 4; speed = 6;
+            break;
+        case 'W':
+            size = 7; speed = 8;
+            break;
+    }
 }
 
 /////////////////////////
@@ -149,18 +171,22 @@ Herbivore::Herbivore(char mytoken, const int& x, const int& y)
     switch(mytoken){
         case 'D':
             neededFood = 4;
+            eatMax = 2;
             setStats('D', "Deer", 2, 4, false, false, x, y);
             break;
         case 'R':
             neededFood = 2;
+            eatMax = 2;
             setStats('R', "Rabbit", 1, 2, false, false, x, y);
             break;
         case 'G':
             neededFood = 3;
+            eatMax = 1;
             setStats('G', "Groundog", 2, 3, true, true, x, y);
             break;
         case 'S':
             neededFood = 1;
+            eatMax = 1;
             setStats('S', "Salmon", 1, 5, false, false, x, y);
             break;
     }
@@ -171,6 +197,29 @@ Herbivore::~Herbivore(){}
 int Herbivore::getNeededFood()
 {
     return neededFood;
+}
+
+int Herbivore::getEatMax()
+{
+    return (neededFood-Animal::getEatenFood()<eatMax?neededFood-Animal::getEatenFood():eatMax);
+}
+
+void Herbivore::eloBoost()
+{
+    switch (Animal::getToken()) {
+        case 'G':
+            neededFood = 5;
+            Animal::eloBoost();    
+            break;
+        case 'D':
+            neededFood = 8;
+            Animal::eloBoost();
+            break;
+        case 'R':
+            neededFood = 4;
+            Animal::eloBoost();
+            break;
+    }
 }
 
 void Herbivore::setNeededFood(const int& e)

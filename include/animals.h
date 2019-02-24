@@ -31,7 +31,6 @@ class Animal
     Animal(char, std::string, const int&, const int&, bool, bool, const int&, const int&);
     ~Animal();
     char getToken();
-    std::string getName();
     int getSize();
     int getHungerCount();
     int getEatenFood();
@@ -46,6 +45,7 @@ class Animal
     int getPointY();
 
     void setStats(char, std::string, const int&, const int&, bool, bool, const int&, const int&);
+    virtual void eloBoost();
     void setSize(const int&);
     void setHungerCount(const int&);
     void setEatenFood(const int&);
@@ -61,12 +61,15 @@ class Animal
 class Herbivore : public Animal
 {
     int neededFood;
+    int eatMax;
 
     public:
 
     Herbivore(char, const int&, const int&);
     ~Herbivore();
     int getNeededFood();
+    int getEatMax();
+    void eloBoost();
     void setNeededFood(const int&);
     void Move(int terrainSize, tiles***);
     void Raise();

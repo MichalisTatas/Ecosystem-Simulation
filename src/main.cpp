@@ -12,9 +12,9 @@ int main(int argc, char const *argv[])
     
     srand((int)time(NULL));
     
-    myEcosystem = new ecosystem(16, 1);
+    myEcosystem = new ecosystem(10, 181);
     myEcosystem->PrintSystem();
 
-    myEcosystem->RunEcosystem(11);
+    myEcosystem->RunEcosystem(90);
     return 0;
 }

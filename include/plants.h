@@ -20,12 +20,14 @@ class Plant
     char getToken();
     int getBreedingProb();
     int getIllnessProb();
-    int getLife();
+    virtual int getLife();
     int getLifeFactor();
+    int getPointX();
+    int getPointY();
 
     void setStats(char, std::string, const int&, const int&, const int&, const int&, const int&, const int&);
-    void virtual LoseLife(const int& eatCount);
-    void virtual Growth(bool);
+    virtual void LoseLife(const int& eatCount);
+    virtual void Growth();
     //missing function about returning plant's location
 };
 
@@ -39,9 +41,11 @@ class Seeded : public Plant
 
     Seeded(char, const int&, const int&);
     ~Seeded();
+    int getLife();
     int getFoliage();
     int getSeeds();
-    void LoseLife(const int& eatCount);
+    int getSize();
+    void LoseLife(int);
     void Growth(bool);
 };
 
@@ -52,6 +56,5 @@ class Seedless : public Plant
     
     Seedless(char, const int&, const int&);
     ~Seedless();
-    void LoseLife();
 };
 #endif
