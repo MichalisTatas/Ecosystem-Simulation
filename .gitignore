@@ -5,7 +5,7 @@ build/*
 bin/*
 
 # Ignoring IDE settings
-.vscode/
+.vscode
 
 #Exeptions to the above rules
 !build/.gitkeep

@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -g3
+CFLAGS = -g3 -std=c++11
 SDIR = src
 BDIR = bin
 

@@ -11,12 +11,11 @@ Animal::Animal(char mytoken, std::string myname, const int& mysize, const int& m
 {
     std::cout << x << " " << y << std::endl;
     location.x = x; location.y = y;
-    //eatcount
-    //inHeat
-    //inHibernation
 }
 
-Animal::~Animal(){}
+Animal::~Animal()
+{
+}
 
 char Animal::getToken()
 {

@@ -43,7 +43,7 @@ class ecosystem {
     void PlacePlants();
     void PlaceAnimals();
 
-    void ApplySeason();
+    void ApplySeason(const int&);
     void DailyReset();
     void AnimalMovement();
     void AnimalEating();
@@ -60,12 +60,15 @@ class ecosystem {
     char findPlant(const int&, const int&);
     void PrintAnimals();
     void PrintPlants();
+    void PrintMap();
+    void PrintPlantStatistics();
+    void PrintAnimalStatistics();
+    void PrintSystem();
 
     public:
     
     ecosystem(const int&, const int&);
     ~ecosystem();
     void RunEcosystem(const int&);
-    void PrintSystem();
 };
 #endif

@@ -29,7 +29,7 @@ class Animal
 
     Animal();
     Animal(char, std::string, const int&, const int&, bool, bool, const int&, const int&);
-    ~Animal();
+    virtual ~Animal();
     char getToken();
     int getSize();
     int getHungerCount();

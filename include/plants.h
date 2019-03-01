@@ -16,7 +16,7 @@ class Plant
     
     Plant();
     Plant(char, std::string, const int&, const int&, const int&, const int&, const int&, const int&);
-    ~Plant();
+    virtual ~Plant();
     char getToken();
     int getBreedingProb();
     int getIllnessProb();
