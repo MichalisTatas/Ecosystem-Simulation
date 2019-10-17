@@ -1,7 +1,7 @@
 # ecosystem-simulation
 
 This Project was a collaboration between MichalisTatas
-and FwtiadhsM
+and FwtiadhsM(Github)
 
 ## Compiling the program
 
