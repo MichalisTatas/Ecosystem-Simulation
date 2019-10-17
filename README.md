@@ -1,7 +1,7 @@
 # ecosystem-simulation
 
-This Project was a collaboration between Μιχαήλ Τατάς, sdi1700161
-and Μιχαήλ Φωτιάδης sdi1700183
+This Project was a collaboration between MichalisTatas
+and FwtiadhsM
 
 ## Compiling the program
 
